@@ -1,13 +1,8 @@
 #ifndef OBFUSCATED_STRING_HPP
 #define OBFUSCATED_STRING_HPP
 
-#include <cstring>
-#include <string>
 #include <memory>
-#include <random>
-#include <array>
-
-#include <iostream>
+#include <cmath>
 
 class ObfuscatedString
 {
@@ -16,7 +11,7 @@ public:
 	~ObfuscatedString();
 
 	template<typename T, std::size_t N>
-    	static constexpr const T* cgi_r();
+    		static constexpr const std::unique_ptr<T[]> cgi_r();
 	template <typename T, std::size_t SIZE>
 		static constexpr std::array<T, SIZE> uniform_distribution(T min, T max);
 	template <typename T, std::size_t SIZE, std::size_t IRWIN_NUM = 12>
