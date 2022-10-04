@@ -150,9 +150,9 @@ template <typename T, std::size_t SIZE, std::size_t IRWIN_NUM>
  * @return     Pseuorandom line with the lenght of N
  */
 template<typename T, std::size_t N>
-    constexpr const T* ObfuscatedString::cgi_r()
+    constexpr const std::unique_ptr<T[]> ObfuscatedString::cgi_r()
     {
-        T* key = new T[N];
+        std::unique_ptr<T[]> key = std::make_unique<T[]>(N);
 
         constexpr auto distribution = uniform_distribution<int, N>(0, 255);
 
@@ -164,7 +164,7 @@ template<typename T, std::size_t N>
         return key;
     }
 
-template const char* ObfuscatedString::cgi_r<char, 64>();
+template const std::unique_ptr<char[]> ObfuscatedString::cgi_r<char, 64>();
 template std::array<int, 64> ObfuscatedString::uniform_distribution<int, 64>(int, int);
 template std::array<int, 64> ObfuscatedString::normal_distribution<int, 64, 12>();
 
