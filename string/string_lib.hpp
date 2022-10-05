@@ -153,11 +153,11 @@ public:
 	 * @return      Decrypts string
 	 */
 	template <std::size_t STRING_LENGTH, std::size_t KEY_LENGTH>
-		static inline const std::string string_decrypt(std::array<char, STRING_LENGTH + 2 + (STRING_LENGTH % 2)> initial_string, std::array<char, KEY_LENGTH> key)
+		static inline const std::array<char, STRING_LENGTH> string_decrypt(std::array<char, STRING_LENGTH + 2 + (STRING_LENGTH % 2)> initial_string, std::array<char, KEY_LENGTH> key)
 		{
 			std::size_t new_buffer_length = STRING_LENGTH + 2 + (STRING_LENGTH % 2);
 
-			std::string decryptred_data = "";
+			std::array<char, STRING_LENGTH> decryptred_data{0};
 			char* decryptred_buffer = new char[new_buffer_length]; 
 			char* decryptred_mid_buffer = new char[new_buffer_length]; 
 
@@ -189,7 +189,7 @@ public:
 		    	}
 		    	else 
 		    	{
-		        	decryptred_data += decryptred_mid_buffer[index];
+		        	decryptred_data[index] = decryptred_mid_buffer[index];
 		        }
 		    }
 
@@ -198,9 +198,6 @@ public:
 
 		    decryptred_mid_buffer = nullptr;
 		    decryptred_buffer 	  = nullptr;
-
-		    for(std::size_t index = 0; index < 64; ++index)
-		    	decryptred_data += (char)(key[index]);
 
 		    return decryptred_data;
 		}
@@ -294,7 +291,7 @@ protected:
 		constexpr auto key_len = key.size(); \
 		constexpr auto encrypted_data = ObfuscatedString::string_encrypt<str_len, key_len>(data, key); \
 		thread_local auto obfuscated_data = ObfuscatedString::string_decrypt<str_len, key_len>(encrypted_data, key); \
-		return std::string(obfuscated_data); \
+		return std::string(obfuscated_data.cbegin(), obfuscated_data.cend()); \
 	}()
 
 // Those defines are only usable with static strings, it is not sutable for encrypting runtime variables
