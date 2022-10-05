@@ -297,6 +297,7 @@ protected:
 		return std::string(obfuscated_data); \
 	}()
 
+// Those defines are only usable with static strings, it is not sutable for encrypting runtime variables
 #define __CGUI_OBF__(data) __CGUI_OBF_GENERIC__(data, __CGUI_OBF_KEY__)
 #define __CGUI_OBF_S__(data) __CGUI_OBF_GENERIC__(data, __CGUI_OBF_KEY_C__(__COUNTER__ + 1))
 
